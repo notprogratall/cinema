@@ -2,7 +2,18 @@ This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-
 
 ## Getting Started
 
-First, run the development server:
+### API Configuration
+
+Before starting the development server, make sure to:
+
+1. Create or modify `.env.local` file in the root of the project
+2. Add your Kinopoisk API key: `NEXT_PUBLIC_KINOPOISK_API_KEY=your_api_key_here`
+
+Without a valid API key, the application will not work correctly.
+
+### Development Server
+
+Run the development server:
 
 ```bash
 npm run dev
