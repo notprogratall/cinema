@@ -2,5 +2,6 @@ export { movieApi } from './kinopoiskService';
 export type { 
   FilterParams, 
   PaginationParams, 
-  MovieApiParams 
+  MovieApiParams,
+  SortParams
 } from './kinopoiskService'; 

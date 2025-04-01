@@ -7,12 +7,12 @@ interface MovieCardProps {
     children?: React.ReactNode;
 }
 
-export const MovieCard = ({ movie }: MovieCardProps) => {
+const MovieCard = ({ movie }: MovieCardProps) => {
     return (
         <div className="rounded shadow-md dark:bg-gray-800 dark:text-white hover-scale">
             <div className="relative h-96">
                 <Image
-                    src={movie.poster.previewUrl}
+                    src={movie.poster?.previewUrl || 'https://placebear.com/400/400'}
                     alt={movie.name}
                     fill
                     sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 315px"
@@ -27,3 +27,5 @@ export const MovieCard = ({ movie }: MovieCardProps) => {
         </div>
     );
 };
+
+export default MovieCard

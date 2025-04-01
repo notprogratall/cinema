@@ -1,7 +1,8 @@
 "use client";
 
-import { MovieCard } from './MovieCard';
-import { Pagination } from './Pagination';
+import MovieCard from './MovieCard';
+import Pagination from './Pagination';
+import Filters  from './Filters';
 import { Preloader } from '@/shared/ui/Preloader';
 import { useMovieList } from '../model/context';
 
@@ -11,6 +12,8 @@ export const MovieList = () => {
     return (
         <>
             <div className="container mx-auto px-4 py-6">
+                <Filters />
+
                 {loading ? (
                     <Preloader />
                 ) : (
@@ -23,7 +26,7 @@ export const MovieList = () => {
                     </>
                 )}
                 {error && <p className="text-red-500 text-4xl">{error}</p>}
-                <Pagination currentPage={page} onPageChange={setPage} totalPages={totalPages}/>
+                <Pagination currentPage={page} onPageChange={setPage} totalPages={totalPages} />
             </div>
         </>
     );

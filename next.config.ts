@@ -9,6 +9,12 @@ const nextConfig: NextConfig = {
         port: '',
         pathname: '/kinopoisk-images/**',
       },
+      {
+        protocol: 'https',
+        hostname: 'placebear.com',
+        port: '',
+        pathname: '/**',
+      }
     ],
   },
 };

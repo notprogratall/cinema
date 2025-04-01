@@ -4,7 +4,7 @@ interface PaginationProps {
     totalPages: number;
 }
 
-export const Pagination = ({ currentPage, onPageChange, totalPages }: PaginationProps) => {
+const Pagination = ({ currentPage, onPageChange, totalPages }: PaginationProps) => {
     const isLastPage = totalPages ? currentPage >= totalPages : false;
     
     const goToNextPage = () => {
@@ -42,3 +42,5 @@ export const Pagination = ({ currentPage, onPageChange, totalPages }: Pagination
         </div>
     );
 };
+
+export default Pagination;

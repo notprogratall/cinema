@@ -6,7 +6,6 @@ export interface FilterParams {
   year?: number;
   genres?: string[];
   countries?: string[];
-  rating?: number;
 }
 
 // Интерфейс для pagination
@@ -16,10 +15,30 @@ export interface PaginationParams {
   totalPages?: number;
 }
 
+// Интерфейс для сортировки
+export interface SortParams {
+  field: string;
+  type: '1' | '-1' | null;
+}
+
 // Базовый интерфейс для параметров запроса
 export interface MovieApiParams {
+  sort?: SortParams;
   filter?: FilterParams;
   pagination?: PaginationParams;
+}
+
+// Интерфейс для параметров запроса к API
+interface QueryParams extends Record<string, unknown> {
+  selectFields: string[];
+  notNullFields: string[];
+  page?: number;
+  limit?: number;
+  sortField?: string;
+  sortType?: '1' | '-1';
+  year?: number;
+  'genres.name'?: string[];
+  'countries.name'?: string[];
 }
 
 // Класс для работы с API фильмов
@@ -52,20 +71,19 @@ export class MovieApi {
   // Метод для получения всех фильмов с учётом параметров
   async getAll(params?: MovieApiParams): Promise<{ docs: Movie[], pages: number }> {
     
-    const queryParams: Record<string, any> = {
+    const queryParams: QueryParams = {
       selectFields: this.defaultSelectFields,
       notNullFields: this.defaultNotNullFields,
     };
     
-    // Добавляем параметры пагинации
     if (params?.pagination) {
       queryParams.page = params.pagination.page;
       queryParams.limit = params.pagination.limit;
     }
-    
-    // Добавляем параметры фильтрации
-    if (params?.filter?.rating) {
-      queryParams['rating.imdb'] = params.filter.rating;
+
+    if (params?.sort?.field && params?.sort?.type) {
+      queryParams.sortField = params.sort.field;
+      queryParams.sortType = params.sort.type;
     }
     
     if (params?.filter?.year) {
@@ -124,6 +142,37 @@ export class MovieApi {
     }
     
     return response.json();
+  }
+
+  // Метод для поиска фильмов по названию
+  async search(query: string, params?: Omit<MovieApiParams, 'filter'>): Promise<{ docs: Movie[], pages: number }> {
+    const searchUrl = `${this.baseUrl}/search?query=${encodeURIComponent(query)}`;
+    const queryParams: QueryParams = {
+      selectFields: this.defaultSelectFields,
+      notNullFields: this.defaultNotNullFields,
+    };
+    
+    if (params?.pagination) {
+      queryParams.page = params.pagination.page;
+      queryParams.limit = params.pagination.limit;
+    }
+
+    const queryString = buildQueryString(queryParams);
+    const url = `${searchUrl}&${queryString}`;
+    
+    const response = await fetch(url, {
+      headers: { "X-API-KEY": this.apiKey },
+    });
+    
+    if (!response.ok) {
+      throw new Error("Ошибка при поиске фильмов");
+    }
+    
+    const data = await response.json();
+    return {
+      docs: data.docs || [],
+      pages: data.pages || 1
+    };
   }
 }
 
