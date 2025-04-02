@@ -82,6 +82,7 @@ export const handleQueryInput = async (
                 query: null
             }));
         }
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (e: any) {
         setState(prev => ({ ...prev, error: e.message || 'Ошибка при поиске фильмов' }));
     } finally {

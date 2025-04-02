@@ -27,13 +27,6 @@ class MovieService {
   }
 
   /**
-   * Фильтрация фильмов
-   */
-  async filterMovies(filter: FilterParams, params?: Omit<MovieApiParams, 'filter'>): Promise<Movie[]> {
-    return movieApi.filter(filter, params);
-  }
-
-  /**
    * Сортировка фильмов
    */
   async sortMovies(sort: SortParams, params?: Omit<MovieApiParams, 'sort'>): Promise<Movie[]> {
@@ -57,7 +50,6 @@ export const movieService = new MovieService();
 // Экспорт вспомогательных функций
 export const fetchMovies = (params?: MovieApiParams) => movieService.fetchMovies(params);
 export const fetchMovieById = (id: number) => movieService.fetchMovieById(id);
-export const filterMovies = (filter: FilterParams, params?: Omit<MovieApiParams, 'filter'>) => movieService.filterMovies(filter, params);
 export const sortMovies = (sort: SortParams, params?: Omit<MovieApiParams, 'sort'>) => movieService.sortMovies(sort, params);
 export const searchMovies = (query: string, params?: Omit<MovieApiParams, 'filter'>) => movieService.searchMovies(query, params);
 

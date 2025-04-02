@@ -1,21 +1,10 @@
-// Фильтрация по стране производства
-// Фильтрация по году выпуска
-// Только сериалы / Только фильмы
-// Сортировка по рейтингу или году выпуска
-// Фильтрация жанров
-// Поиск по названию
-import { useState } from 'react';
-import SearchInput from './components/SearchInput';
-import SortSelect from './components/SortSelect';
-import CountrySelect from './components/CountrySelect';
-import YearInput from './components/YearInput';
-import TypeFilter from './components/TypeFilter';
-import GenreChip from './components/GenreChip';
+import { useState, useRef, useEffect } from 'react';
+import { SearchInput, SortSelect, CountrySelect, YearInput, TypeFilter, GenreChip } from './components';
 import { useMovieList } from '../model/context';
 
-
 const Filters = () => {
-    const { setSortType,  getByName} = useMovieList();
+    const { setSortType, getByName } = useMovieList();
+
     const [isFiltersOpen, setIsFiltersOpen] = useState(false);
     const [selectedType, setSelectedType] = useState<string[]>([]);
     const [selectedGenres, setSelectedGenres] = useState<string[]>([]);
@@ -23,10 +12,32 @@ const Filters = () => {
     const [releaseYear, setReleaseYear] = useState<string>('');
     const [searchQuery, setSearchQuery] = useState<string>('');
 
+    const delayTimerRef = useRef<NodeJS.Timeout | null>(null);
+
     const countries: string[] = ['США', 'Россия', 'Великобритания', 'Франция', 'Германия'];
     const genres: string[] = ['Драма', 'Комедия', 'Боевик', 'Фантастика', 'Ужасы', 'Детектив'];
 
+    const isSearchActive = searchQuery.length > 0;
+
+    // Очистка таймера при размонтировании
+    useEffect(() => {
+        return () => {
+            if (delayTimerRef.current) {
+                clearTimeout(delayTimerRef.current);
+            }
+        };
+    }, []);
+
+    const resetFilters = () => {
+        setSelectedType([]);
+        setSelectedGenres([]);
+        setSelectedCountry('');
+        setReleaseYear('');
+        setSortType(null, null);
+    };
+
     const toggleGenre = (genre: string): void => {
+        if (isSearchActive) return;
         setSelectedGenres(prev =>
             prev.includes(genre)
                 ? prev.filter(g => g !== genre)
@@ -35,6 +46,7 @@ const Filters = () => {
     };
 
     const toggleType = (type: 'movie' | 'series'): void => {
+        if (isSearchActive) return;
         setSelectedType(prev =>
             prev.includes(type)
                 ? prev.filter(t => t !== type)
@@ -43,18 +55,24 @@ const Filters = () => {
     };
 
     const handleSortChange = (field: 'year' | 'rating.imdb' | null, type: '1' | '-1' | null) => {
+        if (isSearchActive) return;
         setSortType(field, type);
     };
 
+
     const handleSearchChange = (query: string) => {
         setSearchQuery(query);
-        clearTimeout((window as any).searchTimeout);
-        (window as any).searchTimeout = setTimeout(() => {
+        if (query.length > 0) {
+            resetFilters();
+        }
+
+        if (delayTimerRef.current) {
+            clearTimeout(delayTimerRef.current);
+        }
+        delayTimerRef.current = setTimeout(() => {
             getByName(query);
         }, 700);
     };
-
-
 
     return (
         <div className="p-4 mb-6">
@@ -65,6 +83,7 @@ const Filters = () => {
                 />
                 <SortSelect
                     onSortChange={handleSortChange}
+                    disabled={isSearchActive}
                 />
             </div>
 
@@ -83,22 +102,26 @@ const Filters = () => {
                                 value={selectedCountry}
                                 onChange={setSelectedCountry}
                                 countries={countries}
+                                disabled={isSearchActive}
                             />
                             <YearInput
                                 value={releaseYear}
                                 onChange={setReleaseYear}
+                                disabled={isSearchActive}
                             />
                         </div>
 
                         <TypeFilter
                             selectedTypes={selectedType}
                             onToggleType={toggleType}
+                            disabled={isSearchActive}
                         />
 
                         <GenreChip
                             genres={genres}
                             selectedGenres={selectedGenres}
                             onToggleGenre={toggleGenre}
+                            disabled={isSearchActive}
                         />
                     </div>
                 )}

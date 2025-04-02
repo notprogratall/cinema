@@ -1,10 +1,6 @@
-interface GenreFilterProps {
-    genres: string[];
-    selectedGenres: string[];
-    onToggleGenre: (genre: string) => void;
-}
+import { GenreFilterProps } from '../../model/interfaces';
 
-const GenreChip = ({ genres, selectedGenres, onToggleGenre }: GenreFilterProps) => {
+export const GenreChip = ({ genres, selectedGenres, onToggleGenre, disabled = false }: GenreFilterProps) => {
     return (
         <div className="space-y-2">
             <span className="block mb-2 font-medium">Жанры</span>
@@ -17,7 +13,8 @@ const GenreChip = ({ genres, selectedGenres, onToggleGenre }: GenreFilterProps) 
                             selectedGenres.includes(genre)
                                 ? 'bg-neutral-800'
                                 : 'bg-neutral-600 hover:bg-neutral-700'
-                        }`}
+                        } ${disabled ? 'opacity-50 cursor-not-allowed' : ''}`}
+                        disabled={disabled}
                     >
                         {genre}
                     </button>
@@ -26,5 +23,3 @@ const GenreChip = ({ genres, selectedGenres, onToggleGenre }: GenreFilterProps) 
         </div>
     );
 };
-
-export default GenreChip; 

@@ -3,7 +3,7 @@
 import MovieCard from './MovieCard';
 import Pagination from './Pagination';
 import Filters  from './Filters';
-import { Preloader } from '@/shared/ui/Preloader';
+import Preloader from '@/shared/ui/Preloader';
 import { useMovieList } from '../model/context';
 
 export const MovieList = () => {

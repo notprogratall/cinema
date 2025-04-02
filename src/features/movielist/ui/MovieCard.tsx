@@ -1,5 +1,5 @@
 import React from 'react';
-import { Movie } from '@/entities/movie/model/interfaces';
+import { Movie } from '@/entities/movie';
 import Image from 'next/image';
 
 interface MovieCardProps {

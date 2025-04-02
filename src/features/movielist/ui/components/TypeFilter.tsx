@@ -1,34 +1,29 @@
-interface TypeFilterProps {
-    selectedTypes: string[];
-    onToggleType: (type: 'movie' | 'series') => void;
-}
+import { TypeFilterProps } from '../../model/interfaces';
 
-const TypeFilter = ({ selectedTypes, onToggleType }: TypeFilterProps) => {
+export const TypeFilter = ({ selectedTypes, onToggleType, disabled = false }: TypeFilterProps) => {
     return (
-        <div className="space-y-2">
-            <span className="block mb-2 font-medium">Тип</span>
+        <div>
+            <label className="block mb-2 font-medium">Тип</label>
             <div className="flex gap-4">
-                <label className="flex items-center gap-2">
-                    <input
-                        type="checkbox"
-                        checked={selectedTypes.includes('movie')}
-                        onChange={() => onToggleType('movie')}
-                        className="w-4 h-4"
-                    />
+                <button
+                    onClick={() => onToggleType('movie')}
+                    className={`px-4 py-2 rounded-md ${
+                        selectedTypes.includes('movie')
+                    } ${disabled ? 'opacity-50 cursor-not-allowed' : ''}`}
+                    disabled={disabled}
+                >
                     Фильмы
-                </label>
-                <label className="flex items-center gap-2">
-                    <input
-                        type="checkbox"
-                        checked={selectedTypes.includes('series')}
-                        onChange={() => onToggleType('series')}
-                        className="w-4 h-4"
-                    />
+                </button>
+                <button
+                    onClick={() => onToggleType('series')}
+                    className={`px-4 py-2 rounded-md ${
+                        selectedTypes.includes('series')
+                    } ${disabled ? 'opacity-50 cursor-not-allowed' : ''}`}
+                    disabled={disabled}
+                >
                     Сериалы
-                </label>
+                </button>
             </div>
         </div>
     );
 };
-
-export default TypeFilter; 

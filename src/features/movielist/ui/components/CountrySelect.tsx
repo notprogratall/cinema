@@ -1,17 +1,14 @@
-interface CountrySelectProps {
-    value: string;
-    onChange: (value: string) => void;
-    countries: string[];
-}
+import { CountrySelectProps } from '../../model/interfaces';
 
-const CountrySelect = ({ value, onChange, countries }: CountrySelectProps) => {
+export const CountrySelect = ({ value, onChange, countries, disabled = false }: CountrySelectProps) => {
     return (
         <div>
             <label className="block mb-2 font-medium">Страна</label>
             <select
-                className="w-full p-2 border rounded-md"
+                className={`w-full p-2 border rounded-md ${disabled ? 'opacity-50 cursor-not-allowed' : ''}`}
                 value={value}
                 onChange={(e) => onChange(e.target.value)}
+                disabled={disabled}
             >
                 <option value="">Все страны</option>
                 {countries.map(country => (
@@ -22,4 +19,3 @@ const CountrySelect = ({ value, onChange, countries }: CountrySelectProps) => {
     );
 };
 
-export default CountrySelect; 

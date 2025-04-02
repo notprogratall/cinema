@@ -1,16 +1,4 @@
-interface SortProps {
-    label: string;
-    value: string;
-    field: 'year' | 'rating.imdb' | null;
-    type: '1' | '-1' | null;
-}
-
-interface sortSelectProps {
-    onSortChange: (
-        sortField: SortProps["field"],
-        sortType: SortProps["type"],
-    ) => void;
-}
+import { SortProps, SortSelectProps } from '../../model/interfaces';
 
 const sortOptions: SortProps[] = [
     { label: 'Без сортировки', value: '', field: null, type: null },
@@ -20,25 +8,25 @@ const sortOptions: SortProps[] = [
     { label: 'Год выпуска по убыванию', value: 'year_desc', field: 'year', type: '-1' },
 ];
 
-const SortSelect = ({ onSortChange }: sortSelectProps) => {
+export const SortSelect = ({ onSortChange, disabled = false }: SortSelectProps) => {
     const handleSortTypeChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-        const selectedIndex = e.target.selectedIndex;
-        const selectedOption = sortOptions[selectedIndex];
-        onSortChange(selectedOption.field, selectedOption.type);
+        const selectedOption = sortOptions.find(option => option.value === e.target.value);
+        if (selectedOption) {
+            onSortChange(selectedOption.field, selectedOption.type);
+        }
     };
 
     return (
         <select
-            className="flex-1 p-2 border rounded-md"
             onChange={handleSortTypeChange}
+            className={`p-2 border rounded-md ${disabled ? 'opacity-50 cursor-not-allowed' : ''}`}
+            disabled={disabled}
         >
-            {sortOptions.map((option, index) => (
-                <option key={index} value={option.value}>
+            {sortOptions.map((option) => (
+                <option key={option.value} value={option.value}>
                     {option.label}
                 </option>
             ))}
         </select>
     );
 };
-
-export default SortSelect;

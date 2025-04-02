@@ -1,7 +1,7 @@
 import PreloaderIcon from "./PreloaderIcon";
 
 
-export const Preloader = () => {
+const Preloader = () => {
     return (
         <div className="flex items-center justify-center min-h-[calc(100vh-16rem)]">
             <div className="relative w-24 h-24 m-8">
@@ -10,3 +10,5 @@ export const Preloader = () => {
         </div>
     );
 };
+
+export default Preloader;

@@ -1,18 +1,14 @@
-interface SearchInputProps {
-    value: string;
-    onSearchChange: (value: string) => void;
-}
+import { SearchInputProps } from "../../model/interfaces"
 
-const SearchInput = ({ value, onSearchChange }: SearchInputProps) => {
+export const SearchInput = ({ value, onSearchChange, disabled = false }: SearchInputProps) => {
     return (
         <input
             type="text"
             placeholder="Поиск по названию"
-            className="flex-3 p-2 border rounded-md "
+            className={`flex-3 p-2 border rounded-md ${disabled ? 'opacity-50 cursor-not-allowed' : ''}`}
             value={value}
             onChange={(e) => onSearchChange(e.target.value)}
+            disabled={disabled}
         />
     );
 };
-
-export default SearchInput; 
