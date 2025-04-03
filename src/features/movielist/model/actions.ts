@@ -17,6 +17,17 @@ export const loadMovies = async (state: MovieListState,
             };
         }
 
+        if (state.countries) {
+            params.filter = {
+                countries: [state.countries] // Передаём массив
+            };
+        }
+
+
+        // Проверка параметров MovieApiParams
+        console.log("MovieApiParams:", params);
+
+
         const data = await fetchMovies(params);
         setState(prev => ({
             ...prev,
@@ -28,6 +39,8 @@ export const loadMovies = async (state: MovieListState,
         setState(prev => ({ ...prev, error: e.message || 'Ошибка при загрузке фильмов' }));
     } finally {
         setState(prev => ({ ...prev, loading: false }));
+        console.log();
+        
     }
 };
 
@@ -37,6 +50,18 @@ export const handlePageChange = (
     setState: (updater: (prev: MovieListState) => MovieListState) => void
 ) => {
     setState(prev => ({ ...prev, page: value }));
+};
+
+
+export const handleCountryChange = (
+    value: string,
+    setState: (updater: (prev: MovieListState) => MovieListState) => void
+) => {
+    setState(prev => ({
+        ...prev,
+        countries: value,
+        page: 1
+    }));
 };
 
 
@@ -51,7 +76,7 @@ export const handleSortTypeChange = (
         sortType: type,
         page: 1 // Сбрасываем страницу при изменении сортировки
     }));
-}; 
+};
 
 
 export const handleQueryInput = async (
@@ -82,7 +107,7 @@ export const handleQueryInput = async (
                 query: null
             }));
         }
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (e: any) {
         setState(prev => ({ ...prev, error: e.message || 'Ошибка при поиске фильмов' }));
     } finally {

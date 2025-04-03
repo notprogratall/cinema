@@ -1,6 +1,7 @@
 import { Movie } from '@/entities/movie/model';
 
 
+
 export interface MovieListState {
     movies: Movie[];
     page: number;
@@ -9,7 +10,7 @@ export interface MovieListState {
     error: string;
     sortField: 'year' | 'rating.imdb' | null;
     sortType: '1' | '-1' | null;
-    country?: string;
+    countries: string | null,
     genre?: string[];
     year?: number;
     query: string | null;
@@ -24,6 +25,11 @@ export interface MovieApiParams {
         field: 'year' | 'rating.imdb';
         type: '1' | '-1';
     };
+    filter?: {
+        countries?: string[];
+
+    }
+
 }
 
 export interface BaseFilterProps {

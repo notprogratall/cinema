@@ -3,7 +3,9 @@ import { SearchInput, SortSelect, CountrySelect, YearInput, TypeFilter, GenreChi
 import { useMovieList } from '../model/context';
 
 const Filters = () => {
-    const { setSortType, getByName } = useMovieList();
+    const { setSortType, getByName, setCountryName } = useMovieList();
+
+
 
     const [isFiltersOpen, setIsFiltersOpen] = useState(false);
     const [selectedType, setSelectedType] = useState<string[]>([]);
@@ -59,6 +61,16 @@ const Filters = () => {
         setSortType(field, type);
     };
 
+    const handleCountrySelection = (country: string) => {
+        if (isSearchActive) return;
+        setSelectedCountry(country);
+        if (delayTimerRef.current) {
+            clearTimeout(delayTimerRef.current);
+        }
+        delayTimerRef.current = setTimeout(() => {
+            setCountryName(country)
+        }, 700);
+    };
 
     const handleSearchChange = (query: string) => {
         setSearchQuery(query);
@@ -73,6 +85,7 @@ const Filters = () => {
             getByName(query);
         }, 700);
     };
+
 
     return (
         <div className="p-4 mb-6">
@@ -100,7 +113,7 @@ const Filters = () => {
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                             <CountrySelect
                                 value={selectedCountry}
-                                onChange={setSelectedCountry}
+                                onChange={handleCountrySelection}
                                 countries={countries}
                                 disabled={isSearchActive}
                             />

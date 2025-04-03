@@ -19,7 +19,7 @@ export class MovieApi {
     
     this.defaultSelectFields = [
       "id", "name", "enName", "description", 
-      "shortDescription", "year", "rating", "poster"
+      "shortDescription", "year", "rating", "poster","countries"
     ];
 
     this.defaultNotNullFields = [
@@ -57,12 +57,15 @@ export class MovieApi {
     
     if (params?.filter?.countries && params.filter.countries.length > 0) {
       queryParams['countries.name'] = params.filter.countries;
+      
     }
     
     // Формируем строку запроса
     const queryString = buildQueryString(queryParams);
     const url = `${this.baseUrl}?${queryString}`;
-    
+
+    console.log("params?.filter?.countries " + params?.filter?.countries);
+
     return this.getResponse(url)
   }
   
