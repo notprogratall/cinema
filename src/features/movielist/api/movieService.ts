@@ -1,10 +1,10 @@
-import { 
+import {
   Movie,
   movieApi,
   FilterParams,
   PaginationParams,
   MovieApiParams,
-  SortParams
+  SortParams,
 } from '@/entities/movie';
 
 /**
@@ -42,6 +42,13 @@ class MovieService {
   async searchMovies(query: string, params?: Omit<MovieApiParams, 'filter'>): Promise<{ docs: Movie[], pages: number }> {
     return movieApi.search(query, params);
   }
+
+  /**
+ * Поиск значений поля 
+ */
+  async searchFieldValues(field: string): Promise<string[]> {
+    return movieApi.getPossibleValues(field);
+  }
 }
 
 // Экспорт экземпляра сервиса
@@ -52,9 +59,11 @@ export const fetchMovies = (params?: MovieApiParams) => movieService.fetchMovies
 export const fetchMovieById = (id: number) => movieService.fetchMovieById(id);
 export const sortMovies = (sort: SortParams, params?: Omit<MovieApiParams, 'sort'>) => movieService.sortMovies(sort, params);
 export const searchMovies = (query: string, params?: Omit<MovieApiParams, 'filter'>) => movieService.searchMovies(query, params);
+export const searchFieldValues = (field: string) => movieService.searchFieldValues(field);
 
 // Экспорт типов
-export type { 
+export type {
+  Movie,
   FilterParams,
   PaginationParams,
   MovieApiParams,

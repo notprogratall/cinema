@@ -9,7 +9,7 @@ export interface Movie {
   rating: {
     imdb: number;
   };
-  year: number;
+  year: string;
 } 
 
 export interface MovieQueryParams {
@@ -19,9 +19,10 @@ export interface MovieQueryParams {
 
 // Интерфейсы для API Кинопоиска
 export interface FilterParams {
-  year?: number;
+  year?: string[];
   genres?: string[];
   countries?: string[];
+  formatTypes?: string[];
 }
 
 export interface PaginationParams {
@@ -48,7 +49,7 @@ export interface QueryParams extends Record<string, unknown> {
   limit?: number;
   sortField?: string;
   sortType?: '1' | '-1';
-  year?: number;
+  year?: string[];
   'genres.name'?: string[];
   'countries.name'?: string[];
 }

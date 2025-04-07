@@ -17,12 +17,23 @@ export const loadMovies = async (state: MovieListState,
             };
         }
 
-        if (state.countries) {
-            params.filter = {
-                countries: [state.countries] // Передаём массив
-            };
+        params.filter = {};
+
+        if (state.country) {
+            params.filter.countries = [state.country];
         }
 
+        if (state.year) {
+            params.filter.year = [state.year];
+        }
+
+        if (state.genres) {
+            params.filter.genres = state.genres;
+        }
+
+        if (state.formatTypes) {
+            params.filter.formatTypes = state.formatTypes;
+        }
 
         // Проверка параметров MovieApiParams
         console.log("MovieApiParams:", params);
@@ -59,11 +70,43 @@ export const handleCountryChange = (
 ) => {
     setState(prev => ({
         ...prev,
-        countries: value,
+        country: value,
         page: 1
     }));
 };
 
+export const handleYearChange = (
+    value: string,
+    setState: (updater: (prev: MovieListState) => MovieListState) => void
+) => {
+    setState(prev => ({
+        ...prev,
+        year: value,
+        page: 1
+    }));
+};
+
+export const handleGenresChange = (
+    value: string[],
+    setState: (updater: (prev: MovieListState) => MovieListState) => void
+) => {
+    setState(prev => ({
+        ...prev,
+        genres: value,
+        page: 1
+    }));
+};
+
+export const handleFormatTypeChange = (
+    value: string[],
+    setState: (updater: (prev: MovieListState) => MovieListState) => void
+) => {
+    setState(prev => ({
+        ...prev,
+        formatTypes: value,
+        page: 1
+    }));
+};
 
 export const handleSortTypeChange = (
     field: 'year' | 'rating.imdb' | null,
@@ -74,7 +117,7 @@ export const handleSortTypeChange = (
         ...prev,
         sortField: field,
         sortType: type,
-        page: 1 // Сбрасываем страницу при изменении сортировки
+        page: 1
     }));
 };
 

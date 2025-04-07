@@ -33,7 +33,7 @@ export const MovieList = () => {
                     </>
                 )}
                 {error && <p className="text-red-500 text-4xl">{error}</p>}
-                <Pagination currentPage={page} onPageChange={setPage} totalPages={totalPages} />
+                <Pagination currentPage={page} onPageChange={setPage} totalPages={totalPages} paginationDisabled={loading} />
             </div>
         </>
     );

@@ -8,7 +8,7 @@ export const YearInput = ({ value, onChange, disabled = false }: YearInputProps)
         const inputValue = e.target.value;
 
         // Разрешаем только цифры или пустую строку
-        if (inputValue === '' || /^\d+$/.test(inputValue)) {
+        if (inputValue === '' || /^[\d,-]+$/.test(inputValue)) {
             onChange(inputValue);
 
             // Проверяем, что год не меньше 1800 (если поле не пустое)

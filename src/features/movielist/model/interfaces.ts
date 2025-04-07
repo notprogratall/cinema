@@ -1,4 +1,5 @@
-import { Movie } from '@/entities/movie/model';
+import { Movie } from '../api/movieService';
+export type { MovieApiParams} from '../api/movieService';
 
 
 
@@ -10,27 +11,12 @@ export interface MovieListState {
     error: string;
     sortField: 'year' | 'rating.imdb' | null;
     sortType: '1' | '-1' | null;
-    countries: string | null,
-    genre?: string[];
-    year?: number;
+    country: string | null,
+    genres?: string[];
+    formatTypes?: string[];
+    year?: string | null;
     query: string | null;
 } 
-
-export interface MovieApiParams {
-    pagination: {
-        page: number;
-        limit: number;
-    };
-    sort?: {
-        field: 'year' | 'rating.imdb';
-        type: '1' | '-1';
-    };
-    filter?: {
-        countries?: string[];
-
-    }
-
-}
 
 export interface BaseFilterProps {
     disabled?: boolean;
@@ -62,8 +48,9 @@ export interface YearInputProps extends BaseFilterProps {
 }
 
 export interface TypeFilterProps extends BaseFilterProps {
-    selectedTypes: string[];
-    onToggleType: (type: 'movie' | 'series') => void;
+    formatTypes: string[];
+    selectedFormatTypes: string[];
+    onToggleFormatType: (type: string) => void;
 }
 
 export interface GenreFilterProps extends BaseFilterProps {

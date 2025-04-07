@@ -2,13 +2,16 @@
 
 import { createContext, useContext, useState, useEffect, useCallback, ReactNode } from 'react';
 import { MovieListState } from './interfaces';
-import { loadMovies, handlePageChange, handleSortTypeChange, handleQueryInput, handleCountryChange } from './actions';
+import { loadMovies, handlePageChange, handleSortTypeChange, handleQueryInput, handleCountryChange, handleYearChange, handleGenresChange, handleFormatTypeChange } from './actions';
 
 interface MovieListContextType extends MovieListState {
     setPage: (value: number) => void;
     setSortType: (field: 'year' | 'rating.imdb' | null, type: '1' | '-1' | null) => void;
     getByName: (query: string | null) => void;
-    setCountryName: (countries: string) => void;
+    setCountryName: (country: string ) => void;
+    setYear: (year: string) => void;
+    setGenresName: (genres: string[]) => void;
+    setFormatTypesName: (formatTypes: string[]) => void;
 }
 
 const MovieListContext = createContext<MovieListContextType | undefined>(undefined);
@@ -27,13 +30,16 @@ export const MovieListProvider = ({ children }: MovieListProviderProps) => {
         sortField: null,
         sortType: null,
         query: null,
-        countries: '',
+        country: '',
+        year: '',
+        genres: [],
+        formatTypes: []
     });
 
     // Обновляем список фильмов при изменении параметров
     useEffect(() => {
         loadMovies(state, setState);
-    }, [state.page, state.sortField, state.sortType, state.countries]);
+    }, [state.page, state.sortField, state.sortType, state.country, state.year, state.genres, state.formatTypes]);
 
     // Выполняем поиск при изменении запроса
     useEffect(() => {
@@ -50,8 +56,20 @@ export const MovieListProvider = ({ children }: MovieListProviderProps) => {
         handleSortTypeChange(field, type, setState);
     }, []);
 
-    const setCountryName = useCallback((countries: string) => {
-        handleCountryChange(countries, setState);
+    const setCountryName = useCallback((country: string) => {
+        handleCountryChange(country, setState);
+    }, []);
+
+    const setGenresName = useCallback((genres: string[]) => {
+        handleGenresChange(genres, setState);
+    }, []);
+
+    const setFormatTypesName = useCallback((formatTypes: string[]) => {
+        handleFormatTypeChange(formatTypes, setState);
+    }, []);
+
+    const setYear = useCallback((year: string) => {
+        handleYearChange(year, setState);
     }, []);
 
     const getByName = useCallback((query: string | null) => {
@@ -59,7 +77,7 @@ export const MovieListProvider = ({ children }: MovieListProviderProps) => {
     }, [state]);
 
     return (
-        <MovieListContext.Provider value={{ ...state, setPage, setSortType, getByName, setCountryName }}>
+        <MovieListContext.Provider value={{ ...state, setPage, setSortType, getByName, setCountryName, setYear, setGenresName, setFormatTypesName }}>
             {children}
         </MovieListContext.Provider>
     );
