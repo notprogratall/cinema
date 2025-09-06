@@ -35,8 +35,8 @@ export const loadMovies = async (state: MovieListState,
             params.filter.formatTypes = state.formatTypes;
         }
 
-        // Проверка параметров MovieApiParams
-        console.log("MovieApiParams:", params);
+        // // Проверка параметров MovieApiParams
+        // console.log("MovieApiParams:", params);
 
 
         const data = await fetchMovies(params);
@@ -50,7 +50,7 @@ export const loadMovies = async (state: MovieListState,
         setState(prev => ({ ...prev, error: e.message || 'Ошибка при загрузке фильмов' }));
     } finally {
         setState(prev => ({ ...prev, loading: false }));
-        console.log();
+
         
     }
 };

@@ -5,16 +5,16 @@ import Pagination from './Pagination';
 import Filters  from './Filters';
 import Preloader from '@/shared/ui/Preloader';
 import { useMovieList } from '../model/context';
-import { useEffect } from 'react';
+// import { useEffect } from 'react';
 
 export const MovieList = () => {
     const { movies, page, loading, error, setPage, totalPages } = useMovieList();
 
-    // Проверка контекста
-    const context = useMovieList();
-    useEffect(() => {
-        console.log('MovieList Context updated:', context);
-    }, [context]);
+    // // Проверка контекста
+    // const context = useMovieList();
+    // useEffect(() => {
+    //     console.log('MovieList Context updated:', context);
+    // }, [context]);
 
     return (
         <>
