@@ -1,4 +1,4 @@
-import { fetchMovies, searchMovies } from '@/features/movielist/api/movieService';
+import { fetchMovies, searchMovies } from '@/features/movieList/api/movieService';
 import { MovieListState, MovieApiParams } from './interfaces';
 
 export const loadMovies = async (state: MovieListState,

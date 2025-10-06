@@ -1,7 +1,7 @@
 import { MovieListProvider } from '@/features/movieList/model/context';
 import { MovieList } from '@/features/movieList/ui/MovieList';
-import PostPage from './test_delete_later/server_side_rendering';
-import { Post } from './test_delete_later/types';
+// import PostPage from './test_delete_later/server_side_rendering';
+// import { Post } from './test_delete_later/types';
 
 
 export default async function Home() {

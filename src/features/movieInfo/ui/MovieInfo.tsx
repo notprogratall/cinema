@@ -1,4 +1,4 @@
-import { Movie, fetchMovieById } from '../api/movieService';
+import { fetchMovieById } from '../api/movieService';
 
 type Props = {
     params: {
